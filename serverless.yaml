@@ -1,0 +1,44 @@
+app: stefanini-test
+service: serverless-crud
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x 
+
+functions:
+  list-employee:
+    handler: src/modules/employees/useCase/listEmployees/ListEmployeesController.handle
+    events:
+      - httpApi: 
+          path: /employees
+          method: get    
+  list-unique-employee:
+    handler: src/modules/employees/useCase/listEmployees/ListEmployeesController.handleUnique
+    events:
+      - httpApi: 
+          path: /employees/:name
+          method: get    
+  create-employee:
+    handler: src/modules/employees/useCase/createEmployees/CreateEmployeesController.handle
+    events:
+      - httpApi: 
+          path: /employees
+          method: post
+  update-employee:
+    handler: src/modules/employees/useCase/updateEmployee/UpdateEmployeeController.handle
+    events:
+      - httpApi: 
+          path: /employees
+          method: put  
+  delete-employee:
+    handler: src/modules/employees/useCase/deleteEmployee/DeleteEmployeesController.handle
+    events:
+      - httpApi: 
+          path: /employees/:id
+          method: delete      
+
+plugins:
+  - serverless-auto-swagger
+  - serverless-offline  
+  - serverless-plugin-typescript  
